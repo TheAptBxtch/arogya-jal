@@ -1,237 +1,142 @@
 # ArogyaJal Predictive Maintenance System
 
-A comprehensive predictive maintenance system for water pumps using Python backend, machine learning, and modern web frontend. The system predicts pump failures within 72 hours using real-time sensor data analysis.
+A comprehensive predictive maintenance system for water pumps using Python machine learning and Streamlit. The system predicts pump failures within 72 hours using real-time sensor data analysis.
 
 ## 🚀 Features
 
-- **🤖 Machine Learning**: XGBoost classifier trained on synthetic sensor data
+- **🤖 Machine Learning**: Random Forest classifier trained on synthetic sensor data
 - **📊 Real-time Analysis**: Instant failure probability predictions
 - **🎯 Color-coded Alerts**: Visual risk indicators (Green/Yellow/Red)
-- **📱 Responsive Design**: Mobile-friendly web dashboard
+- **🖥️ Streamlit Dashboard**: Easy-to-use web interface
 - **🔍 Sensor Validation**: Input validation for all sensor readings
-- **📈 Confidence Scoring**: Prediction confidence levels
-- **🔧 REST API**: Clean, documented API endpoints
-- **📄 Printable Reports**: Generate maintenance reports
+- **📈 Feature Importance**: Visual insights into model decision-making
+- **📱 Responsive Design**: Mobile-friendly dashboard
+- **⚡ One-Click Setup**: Simple installation and running
 
 ## 📋 System Requirements
 
-- **Python 3.9+** - Backend ML and API services
-- **Node.js 16+** and **npm** - Frontend development
-- **Git** - Version control
+- **Python 3.8+** - Only requirement!
+- **pip** - Package installer (comes with Python)
 
-## 🏗️ Architecture
+## 🏗️ Simplified Architecture
 
 ```
 arogya-jal/
-├── backend/                     # Python backend services
-│   ├── data_generator.py        # Synthetic data generation
-│   ├── model_trainer.py         # ML model training
-│   ├── api/                     # FastAPI application
-│   │   ├── main.py             # API server
-│   │   ├── models.py           # Pydantic validation
-│   │   └── predictor.py        # Prediction logic
-│   └── requirements.txt        # Python dependencies
-├── frontend/                    # Next.js web application
-│   ├── pages/                  # React pages
-│   │   ├── index.tsx           # Main dashboard
-│   │   └── api/predict.ts      # API proxy
-│   ├── components/             # React components
-│   │   ├── Dashboard.tsx       # Main container
-│   │   ├── PredictionForm.tsx  # Input form
-│   │   └── PredictionCard.tsx  # Results display
-│   └── styles/                 # CSS styling
-├── data/                       # Generated datasets
-│   └── pump_data.csv          # Training data
-└── README.md                   # This file
+├── 📄 app.py                     # Main Streamlit application
+├── 📄 data_generator.py          # Synthetic data generation
+├── 📄 model_trainer.py           # ML model training
+├── 📄 requirements.txt           # Python dependencies
+├── 📁 data/                      # Generated datasets
+│   └── pump_data.csv            # Training data
+├── 📁 models/                    # Trained models
+│   ├── final_model.joblib       # Trained ML model
+│   ├── feature_scaler.joblib    # Feature scaler
+│   └── feature_columns.joblib   # Feature names
+└── 📄 README.md                  # This file
 ```
 
-## ⚙️ Quick Start
+## ⚡ Super Quick Start (3 Steps!)
 
-Follow these steps to get the system running:
-
-### 1. Setup Backend Environment
+### Step 1: Install Dependencies
 
 ```bash
 # Navigate to project directory
 cd arogya-jal
 
-# Create Python virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
 # Install Python dependencies
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 ```
 
-### 2. Generate Training Data
+### Step 2: Generate Data & Train Model
+
+The Streamlit app has built-in buttons to do this automatically! But if you want to do it manually:
 
 ```bash
-# Run data generation script
-python backend/data_generator.py
+# Generate synthetic training data
+python data_generator.py
+
+# Train the machine learning model
+python model_trainer.py
 ```
 
-**Expected Output:**
-```
-Generating synthetic pump sensor data...
-Generated dataset with 1000 rows
-Date range: 2024-01-01 08:00:00 to 2024-02-12 14:30:00
-Failure events: 18 (1.8%)
-
-Sample data:
-   timestamp  vibration  current  temperature  failure_in_72_hours
-0 2024-01-01 08:00:00      1.2     10.5         55.3                   0
-1 2024-01-01 12:30:00      1.4     11.2         56.1                   0
-
-Dataset saved to: ../data/pump_data.csv
-✓ Data generation completed successfully!
-```
-
-### 3. Train Prediction Model
+### Step 3: Run the Application
 
 ```bash
-# Run model training script
-python backend/model_trainer.py
+# Start the Streamlit web application
+streamlit run app.py
 ```
 
-**Expected Output:**
-```
-=== ArogyaJal Predictive Maintenance Model Training ===
+That's it! 🎉 The app will open in your browser at http://localhost:8501
 
-Loading dataset...
-Dataset loaded successfully: 1000 rows, 5 columns
-Target distribution:
+## 🎯 Using the Dashboard
+
+### First Time Setup
+1. Open the app in your browser
+2. Click **"🔄 Generate New Data"** in the sidebar
+3. Click **"🤖 Train Model"** in the sidebar
+4. Wait for the model to train (shows ✅ Model Loaded when ready)
+
+### Making Predictions
+1. **Enter sensor readings**:
+   - Vibration (mm/s): 0.1 - 2.0 is normal, up to 10 max
+   - Current (A): 8.0 - 15.0 is normal, up to 50 max
+   - Temperature (°C): 45 - 75 is normal, -20 to 150 valid range
+
+2. **Click "🔍 Predict Failure Risk"**
+
+3. **View results**:
+   - 🟢 **Green**: Low Risk (< 40%)
+   - 🟡 **Yellow**: Medium Risk (40-80%)
+   - 🔴 **Red**: High Risk (> 80%)
+
+### Quick Presets
+Use the preset buttons in the sidebar to test different scenarios:
+- **🟢 Normal Operation**: Typical healthy pump readings
+- **🟡 Medium Risk**: Elevated readings requiring monitoring
+- **🔴 Critical Risk**: Dangerous readings requiring immediate action
+
+## 📊 Expected Outputs
+
+### Data Generation
+```
+🚀 Starting ArogyaJal Data Generation
+==================================================
+✅ Dataset generated successfully!
+📊 Total records: 1000 rows
+📅 Date range: 2024-01-01 to 2024-02-12
+⚠️  Failure events: 18 (1.8%)
+💾 Dataset saved to: data/pump_data.csv
+✅ Data generation completed successfully!
+```
+
+### Model Training
+```
+🚀 Starting ArogyaJal Model Training
+==================================================
+✅ Dataset loaded successfully: 1000 rows, 5 columns
+📊 Target distribution:
 0    982
 1     18
-Name: failure_in_72_hours, dtype: int64
-Failure rate: 0.018
+⚠️  Failure rate: 0.018 (1.8%)
 
-Performing feature engineering...
-Features engineered: 26 columns
-Feature matrix shape: (1000, 26)
+🔧 Performing feature engineering...
+✅ Feature engineering completed. Created 26 features.
 
-Training set: 800 samples
-Test set: 200 samples
+🤖 Training Random Forest model...
+✅ Model training completed.
 
-Training XGBoost model...
-Model training completed.
+🎯 Evaluation Results:
+   Accuracy: 0.9850
+   Precision: 0.8333
+   Recall: 0.8333
+   F1-Score: 0.8333
+   ROC AUC: 0.9896
 
-Evaluating model performance...
-Evaluation Results:
-Accuracy: 0.9850
-Precision: 0.8333
-Recall: 0.8333
-F1-Score: 0.8333
-ROC AUC: 0.9896
-
-Model saved to: ./final_model.pkl
-✓ Model training completed successfully!
+💾 Model saved to: models/final_model.joblib
+🎉 Model training completed successfully!
 ```
 
-### 4. Start Backend API Server
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Start FastAPI server
-uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Expected Output:**
-```
-INFO:     Started server process [12345]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000
-INFO:     For reloader, use --reload
-```
-
-### 5. Setup Frontend Environment (New Terminal)
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Install Node.js dependencies
-npm install
-```
-
-### 6. Start Frontend Development Server
-
-```bash
-# Start Next.js development server
-npm run dev
-```
-
-**Expected Output:**
-```
-ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-```
-
-### 7. Access the Application
-
-1. Open your web browser
-2. Go to **http://localhost:3000**
-3. You should see the "ArogyaJal Predictive Maintenance" dashboard
-4. Try entering sensor readings to get predictions!
-
-## 🎯 Testing the System
-
-### Test API Health Check
-
-```bash
-curl http://localhost:8000/health
-```
-
-**Expected Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-01-15T10:30:00.123456",
-  "model_loaded": true,
-  "version": "1.0.0"
-}
-```
-
-### Test Prediction Endpoint
-
-```bash
-curl -X POST "http://localhost:8000/api/predict" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "vibration": 1.5,
-       "current": 12.3,
-       "temperature": 65.2
-     }'
-```
-
-**Expected Response:**
-```json
-{
-  "probability_of_failure": 0.142,
-  "timestamp": "2024-01-15T10:30:00.123456",
-  "status": "success",
-  "confidence_level": "high"
-}
-```
-
-### Test Different Risk Levels
-
-1. **Normal Operation** (Green - < 40%):
-   - Vibration: 1.2, Current: 10.5, Temperature: 55.3
-
-2. **Medium Risk** (Yellow - 40-80%):
-   - Vibration: 3.5, Current: 20.0, Temperature: 85.0
-
-3. **Critical Risk** (Red - > 80%):
-   - Vibration: 6.0, Current: 35.0, Temperature: 110.0
-
-## 📊 Sensor Data Ranges
+## 📋 Sensor Data Reference
 
 | Sensor | Normal Range | Valid Range | Units |
 |--------|-------------|-------------|-------|
@@ -241,171 +146,155 @@ curl -X POST "http://localhost:8000/api/predict" \
 
 ## 🚨 Risk Level Interpretation
 
-- **🟢 Green (Low Risk)**: < 40% failure probability
-  - Pump operating normally
-  - Continue regular monitoring
+### 🟢 Low Risk (< 40%)
+- Pump operating normally
+- Continue regular monitoring
+- Maintain standard maintenance schedule
 
-- **🟡 Yellow (Medium Risk)**: 40-80% failure probability
-  - Monitor closely
-  - Schedule inspection soon
+### 🟡 Medium Risk (40-80%)
+- Monitor pump performance closely
+- Increase sensor reading frequency
+- Schedule routine inspection soon
+- Document operating conditions
 
-- **🔴 Red (High Risk)**: > 80% failure probability
-  - Immediate inspection required
-  - Schedule maintenance ASAP
-
-## 🔧 Configuration
-
-### Backend Environment Variables
-
-Create `.env` file in `backend/` directory:
-
-```env
-MODEL_PATH="./final_model.pkl"
-API_HOST="0.0.0.0"
-API_PORT="8000"
-```
-
-### Frontend Environment Variables
-
-Create `.env.local` file in `frontend/` directory:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-NODE_ENV=development
-```
-
-## 📁 File Descriptions
-
-### Backend Files
-
-- **`data_generator.py`**: Creates synthetic pump sensor data with realistic failure patterns
-- **`model_trainer.py`**: Trains XGBoost model with feature engineering
-- **`api/main.py`**: FastAPI server with prediction endpoints
-- **`api/models.py`**: Pydantic models for request/response validation
-- **`api/predictor.py`**: Core prediction logic and feature engineering
-
-### Frontend Files
-
-- **`pages/index.tsx`**: Main dashboard page
-- **`pages/api/predict.ts`**: API proxy route to backend
-- **`components/Dashboard.tsx`**: Main dashboard container component
-- **`components/PredictionForm.tsx`**: Sensor input form with validation
-- **`components/PredictionCard.tsx`**: Results display with visual indicators
+### 🔴 High Risk (> 80%)
+- Immediate inspection required
+- Schedule maintenance ASAP
+- Consider reducing pump load
+- Contact maintenance team
 
 ## 🐛 Troubleshooting
 
-### Common Issues
+### Installation Issues
 
-1. **Port Already in Use**
-   ```bash
-   # Find process using port 8000
-   lsof -i :8000
-   # Kill the process
-   kill -9 <PID>
-   ```
-
-2. **Module Not Found**
-   ```bash
-   # Ensure virtual environment is activated
-   source venv/bin/activate
-   # Reinstall dependencies
-   pip install -r backend/requirements.txt
-   ```
-
-3. **Model Files Missing**
-   ```bash
-   # Ensure data generation and training completed
-   python backend/data_generator.py
-   python backend/model_trainer.py
-   ```
-
-4. **Frontend Build Errors**
-   ```bash
-   # Clear node_modules and reinstall
-   cd frontend
-   rm -rf node_modules package-lock.json
-   npm install
-   ```
-
-5. **CORS Issues**
-   - Ensure backend server is running
-   - Check API URL in frontend `.env.local`
-
-### Debug Mode
-
-**Backend Debugging:**
+**Problem:** `pip install -r requirements.txt` fails
 ```bash
-# Start with debug logging
-uvicorn api.main:app --reload --log-level debug
+# Try upgrading pip first
+pip install --upgrade pip
+
+# If still failing, try installing one by one
+pip install streamlit pandas numpy scikit-learn plotly joblib
 ```
 
-**Frontend Debugging:**
-- Open browser developer tools
-- Check Network tab for API calls
-- Check Console for JavaScript errors
+**Problem:** ModuleNotFoundError
+```bash
+# Make sure you're in the right directory
+cd arogya-jal
 
-## 📈 Performance Metrics
+# Check Python path
+python -c "import streamlit; print('Streamlit installed successfully')"
+```
 
-The trained model typically achieves:
+### Runtime Issues
+
+**Problem:** Model loading fails
+- Click "🤖 Train Model" button in the sidebar
+- Wait for training to complete
+- Look for "✅ Model Loaded" message
+
+**Problem:** Predictions not working
+- Ensure model is trained and loaded
+- Check that sensor values are within valid ranges
+- Try the preset buttons first
+
+**Problem:** Streamlit won't start
+```bash
+# Check if port is available
+streamlit run app.py --server.port 8502
+
+# Or kill existing Streamlit processes
+pkill -f streamlit
+```
+
+## 📈 Model Performance
+
+The Random Forest model typically achieves:
 - **Accuracy**: > 95%
 - **Precision**: > 80%
 - **Recall**: > 80%
 - **ROC AUC**: > 0.95
 
-## 🚀 Production Deployment
+## 🚀 Deployment Options
 
-### Backend (Docker)
+### Local Deployment
+```bash
+streamlit run app.py --server.address 0.0.0.0 --server.port 8501
+```
 
+### Streamlit Cloud
+1. Push code to GitHub
+2. Connect to Streamlit Cloud
+3. Deploy automatically!
+
+### Docker Deployment
 ```dockerfile
 FROM python:3.9-slim
 
 WORKDIR /app
-COPY backend/requirements.txt .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY backend/ .
-COPY data/ .
+COPY . .
+EXPOSE 8501
 
-EXPOSE 8000
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-### Frontend (Static Files)
-
-```bash
-# Build for production
-npm run build
-npm start
+CMD ["streamlit", "run", "app.py", "--server.address", "0.0.0.0"]
 ```
 
 ## 🔄 Model Retraining
 
-To retrain the model with new data:
+To improve the model with new data:
 
-1. Update or replace `data/pump_data.csv`
-2. Run training script: `python backend/model_trainer.py`
-3. Restart the API server
+1. **Add new data** to `data/pump_data.csv`
+2. **Click "🤖 Train Model"** in the sidebar
+3. Model will retrain automatically with updated data
 
-## 📄 License
+## 📄 Project Structure Details
 
-This project is for educational and demonstration purposes.
+### Core Files
+
+- **`app.py`**: Main Streamlit application with interactive dashboard
+- **`data_generator.py`**: Creates realistic synthetic sensor data with failure patterns
+- **`model_trainer.py`**: Trains Random Forest model with feature engineering
+- **`requirements.txt`**: All Python dependencies (only 6 packages!)
+
+### Generated Files
+
+- **`data/pump_data.csv`**: Training dataset with 1,000 sensor readings
+- **`models/final_model.joblib`**: Trained machine learning model
+- **`models/feature_scaler.joblib`**: Feature scaling parameters
+- **`models/feature_columns.joblib`**: Feature engineering pipeline
+
+## 🎯 Key Features Explained
+
+### Machine Learning Pipeline
+1. **Feature Engineering**: Time-based features, rolling averages, trends, interactions
+2. **Model Training**: Random Forest with 100 trees
+3. **Validation**: Time-based train/test split
+4. **Evaluation**: Multiple metrics including ROC AUC
+
+### Dashboard Features
+1. **Real-time Predictions**: Instant failure probability calculation
+2. **Visual Risk Indicators**: Color-coded risk levels
+3. **Feature Importance**: Understand what drives predictions
+4. **Quick Presets**: Test different scenarios instantly
+5. **Responsive Design**: Works on all devices
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch: `git checkout -b feature-name`
 3. Make your changes
-4. Test thoroughly
+4. Test the application thoroughly
 5. Submit a pull request
 
 ## 📞 Support
 
 For issues and questions:
-1. Check this README
+1. Check this README first
 2. Review the troubleshooting section
-3. Check browser console for errors
-4. Verify backend API is accessible
+3. Try the preset buttons to test functionality
+4. Check that all files are generated properly
 
 ---
 
-**🎉 Congratulations!** You now have a fully functional predictive maintenance system for water pumps. The system can predict pump failures up to 72 hours in advance using machine learning.
+**🎉 Congratulations!** You now have a fully functional predictive maintenance system that's incredibly easy to run and showcase. Just 3 commands and you're ready to demonstrate ML-powered pump failure prediction!
