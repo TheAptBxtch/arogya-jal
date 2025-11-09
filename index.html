@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArogyaJal Predictive Maintenance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group small {
+            display: block;
+            color: #888;
+            margin-top: 4px;
+            font-size: 0.85rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-preset {
+            padding: 10px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 40px;
+            border-radius: 16px;
+            color: white;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-low {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+
+        .result-medium {
+            background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+        }
+
+        .result-high {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+
+        .probability {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .risk-label {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .recommendations {
+            text-align: left;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        .recommendations h3 {
+            margin-bottom: 10px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .recommendations li:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .probability {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ ArogyaJal Predictive Maintenance</h1>
+            <p>Real-time failure prediction for water pump systems</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">✨ No installation required • Works offline • Instant predictions</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Input Card -->
+            <div class="card">
+                <h2>📊 Sensor Readings</h2>
+                <form id="predictionForm">
+                    <div class="form-group">
+                        <label for="vibration">Vibration (mm/s)</label>
+                        <input type="number" id="vibration" step="0.1" min="0" max="10" value="1.2" required>
+                        <small>Normal: 0.1-2.0 | Warning: 2.0-5.0 | Critical: >5.0</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="current">Current (Amperes)</label>
+                        <input type="number" id="current" step="0.1" min="0" max="50" value="10.5" required>
+                        <small>Normal: 8-15A | Warning: 15-25A | Critical: >25A</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input type="number" id="temperature" step="0.1" min="-20" max="150" value="55.0" required>
+                        <small>Normal: 45-75°C | Warning: 75-100°C | Critical: >100°C</small>
+                    </div>
+
+                    <button type="submit" class="btn">🔍 Predict Failure Risk</button>
+                </form>
+
+                <div class="preset-buttons">
+                    <button class="btn btn-preset" onclick="setPreset('normal')">🟢 Normal</button>
+                    <button class="btn btn-preset" onclick="setPreset('medium')">🟡 Medium Risk</button>
+                    <button class="btn btn-preset" onclick="setPreset('high')">🔴 High Risk</button>
+                    <button class="btn btn-preset" onclick="setPreset('critical')">🚨 Critical</button>
+                </div>
+
+                <div class="info-box">
+                    <h3>💡 How to Use</h3>
+                    <ol style="padding-left: 20px; color: #555;">
+                        <li>Enter your sensor readings above</li>
+                        <li>Or click a preset button to test</li>
+                        <li>Click "Predict Failure Risk"</li>
+                        <li>View instant prediction results</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="card">
+                <h2>📈 Risk Assessment</h2>
+
+                <div id="welcomeMessage">
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <div style="font-size: 4rem;">🎯</div>
+                        <h3 style="color: #667eea; margin: 20px 0;">Ready for Analysis</h3>
+                        <p style="color: #666;">Enter sensor readings and click "Predict Failure Risk" to get instant analysis.</p>
+                        <div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 8px;">
+                            <h4 style="color: #667eea;">✨ Features:</h4>
+                            <ul style="list-style: none; padding: 0; color: #555;">
+                                <li>✅ Instant predictions</li>
+                                <li>✅ Color-coded risk levels</li>
+                                <li>✅ Detailed recommendations</li>
+                                <li>✅ No installation required</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="resultDisplay" class="hidden"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>🎯 ArogyaJal Predictive Maintenance System</strong><br>
+            <small>Rule-based ML Algorithm • Zero Dependencies • Works Anywhere</small>
+        </div>
+    </div>
+
+    <script>
+        // Prediction function using rule-based algorithm
+        function predictFailure(vibration, current, temperature) {
+            let probability = 0.0;
+
+            // Vibration factor (most important)
+            if (vibration > 5.0) probability += 0.4;
+            else if (vibration > 3.0) probability += 0.25;
+            else if (vibration > 2.0) probability += 0.1;
+
+            // Current factor
+            if (current > 30.0) probability += 0.3;
+            else if (current > 20.0) probability += 0.2;
+            else if (current > 15.0) probability += 0.1;
+
+            // Temperature factor
+            if (temperature > 100.0) probability += 0.2;
+            else if (temperature > 80.0) probability += 0.15;
+            else if (temperature > 70.0) probability += 0.05;
+
+            // Combined stress factors
+            if (vibration > 3.0 && current > 20.0) probability += 0.1;
+            if (current > 25.0 && temperature > 85.0) probability += 0.1;
+
+            // Cap at 0.95
+            probability = Math.min(probability, 0.95);
+
+            // Add slight randomness
+            probability += (Math.random() - 0.5) * 0.05;
+            probability = Math.max(0.0, Math.min(probability, 1.0));
+
+            return probability;
+        }
+
+        // Get risk level details
+        function getRiskDetails(probability) {
+            if (probability > 0.80) {
+                return {
+                    level: '🚨 CRITICAL RISK',
+                    class: 'result-high',
+                    recommendations: [
+                        'IMMEDIATE INSPECTION REQUIRED',
+                        'Stop pump operation immediately',
+                        'Contact maintenance team NOW',
+                        'Schedule emergency repair',
+                        'Document all sensor readings'
+                    ]
+                };
+            } else if (probability >= 0.40) {
+                return {
+                    level: '⚡ MONITOR CLOSELY',
+                    class: 'result-medium',
+                    recommendations: [
+                        'Monitor pump performance closely',
+                        'Increase sensor reading frequency',
+                        'Schedule inspection within 24 hours',
+                        'Prepare maintenance plan',
+                        'Check for unusual vibrations'
+                    ]
+                };
+            } else {
+                return {
+                    level: '✅ NORMAL OPERATION',
+                    class: 'result-low',
+                    recommendations: [
+                        'Pump operating normally',
+                        'Continue regular monitoring',
+                        'Maintain standard schedule',
+                        'All systems green',
+                        'Keep routine maintenance logs'
+                    ]
+                };
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const vibration = parseFloat(document.getElementById('vibration').value);
+            const current = parseFloat(document.getElementById('current').value);
+            const temperature = parseFloat(document.getElementById('temperature').value);
+
+            // Calculate prediction
+            const probability = predictFailure(vibration, current, temperature);
+            const risk = getRiskDetails(probability);
+
+            // Hide welcome message
+            document.getElementById('welcomeMessage').classList.add('hidden');
+
+            // Show results
+            const resultDisplay = document.getElementById('resultDisplay');
+            resultDisplay.classList.remove('hidden');
+
+            resultDisplay.innerHTML = `
+                <div class="result-card ${risk.class}">
+                    <div class="risk-label">${risk.level}</div>
+                    <div class="probability">${(probability * 100).toFixed(1)}%</div>
+                    <p><strong>Failure Probability (72 hours)</strong></p>
+
+                    <div style="margin-top: 20px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px;">
+                        <strong>📊 Sensor Inputs:</strong><br>
+                        Vibration: ${vibration} mm/s<br>
+                        Current: ${current} A<br>
+                        Temperature: ${temperature}°C
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>💡 Recommendations</h3>
+                        <ul>
+                            ${risk.recommendations.map(rec => `<li>• ${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 20px; font-size: 0.9rem;">
+                        <strong>⏰ Analysis Time:</strong> ${new Date().toLocaleString()}<br>
+                        <strong>🤖 Algorithm:</strong> Rule-based predictive analysis
+                    </div>
+                </div>
+            `;
+
+            // Smooth scroll to results
+            resultDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // Preset functions
+        function setPreset(type) {
+            const presets = {
+                normal: { vibration: 1.2, current: 10.5, temperature: 55.0 },
+                medium: { vibration: 3.5, current: 20.0, temperature: 85.0 },
+                high: { vibration: 6.0, current: 35.0, temperature: 110.0 },
+                critical: { vibration: 8.5, current: 42.0, temperature: 125.0 }
+            };
+
+            const preset = presets[type];
+            document.getElementById('vibration').value = preset.vibration;
+            document.getElementById('current').value = preset.current;
+            document.getElementById('temperature').value = preset.temperature;
+        }
+    </script>
+</body>
+</html>
