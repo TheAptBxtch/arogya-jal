@@ -1,0 +1,47 @@
+════════════════════════════════════════════════════════════════
+
+    🎯 ArogyaJal Predictive Maintenance System
+
+    ✨ READY TO USE - NO SETUP NEEDED! ✨
+
+════════════════════════════════════════════════════════════════
+
+📱 TO START THE APP:
+
+    ⭐ JUST DOUBLE-CLICK: index.html ⭐
+
+    (That's it! It opens in your browser)
+
+════════════════════════════════════════════════════════════════
+
+✅ WHAT'S INCLUDED:
+
+    ✓ Pre-made dataset (1000 sensor readings) - ALREADY INCLUDED
+    ✓ Professional dashboard - WORKS IN BROWSER
+    ✓ NO installation needed
+    ✓ NO pip installs
+    ✓ NO dependencies
+    ✓ NO Python required
+    ✓ 100% ready to use
+
+════════════════════════════════════════════════════════════════
+
+🎯 HOW TO USE:
+
+    1. Double-click "index.html"
+    2. Browser opens automatically
+    3. Click preset buttons to test (Normal/Medium/High/Critical)
+    4. Or enter your own sensor values
+    5. Click "Predict Failure Risk"
+    6. See instant results!
+
+════════════════════════════════════════════════════════════════
+
+💡 THAT'S IT!
+
+    The pre-made CSV data is already in the data/ folder
+    Everything works offline
+    No setup required
+    Just open and use!
+
+════════════════════════════════════════════════════════════════
